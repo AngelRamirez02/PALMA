@@ -1,9 +1,14 @@
+import { Link } from "react-router-dom"
+
 import AuthLayout from "../layout/AuthLayout"
 import NavButtonRegistro from "../components/NavButtonRegistro.jsx"
-import { Link } from "react-router-dom"
+import CardForm from "../components/CardForm.jsx"
 
 //Importar imágenes
 import LogoPalma from '../assets/images/logos/logo-palma.jpg' //Logo palma
+
+//Importar estilos
+import '../assets/styles/Home.css'
 
 export default function Login(){
     return(
@@ -16,9 +21,11 @@ export default function Login(){
                     <NavButtonRegistro/>
                 </div>
             </nav>
-            <div>
-                <h1>Crea tu cuenta</h1>
-            </div>
+            <section>
+                <CardForm>
+                    <h1>Inicia sesión en tu cuenta</h1>
+                </CardForm>
+            </section>
         </AuthLayout>
     )   
 }
