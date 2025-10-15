@@ -1,0 +1,57 @@
+nav{
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    background-color: #F6F8F8;
+}
+
+.logo-palma{
+    max-width: 200px;
+    height: auto;
+    width: 80%;
+}
+
+.container-logo{
+    display: flex;
+    align-items: center;
+}
+
+.container-buttons{
+    display: flex;
+    justify-content: flex-end;
+    gap: 15px;
+    width: 45%;
+    padding-right: 20px;
+}
+
+Link{
+    max-width: 150px;
+    width: 50%;
+    height:40px;
+}
+Link:hover{
+    cursor: pointer;
+    opacity: 0.9;
+}
+
+.button-regisrtrarse{
+    /*Estilos para colores*/
+    background-color: #13A4EC;
+    color: #ffffff;
+    padding:  10px 20px;
+    border-radius: 5px;
+    text-decoration: none;
+}
+
+
+.button-login{
+    background-color: #C9E7F5;
+    color: #13A4EC;
+    padding:  10px 20px;
+    border-radius: 5px;
+    text-decoration: none;
+}
+
+.text-bold{
+    font-weight: bold;
+}
