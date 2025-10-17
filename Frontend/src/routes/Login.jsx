@@ -23,7 +23,7 @@ export default function Login(){
             </nav>
             <section>
                 <CardForm>
-                    <h1>Inicia sesión en tu cuenta</h1>
+                    <h2 className="title-form">Iniciar Sesión</h2>
                 </CardForm>
             </section>
         </AuthLayout>

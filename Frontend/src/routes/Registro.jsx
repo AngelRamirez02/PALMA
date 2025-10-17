@@ -1,5 +1,5 @@
 import { useState } from "react"
-import { Link } from "react-router-dom"
+import { Link, useNavigate } from "react-router-dom"
 
 //Importar componentes
 import AuthLayout from "../layout/AuthLayout.jsx"
@@ -29,13 +29,28 @@ export default function Registro(){
     // Estados para manejar la UI (carga y errores)
     const [cargando, setCargando] = useState(false);
     const [error, setError] = useState(null);
+    const [passwordError, setPasswordError] = useState(''); // Estado para el error de contraseña
+
+    //Estados para modales
+    const [showSuccessModal, setShowSuccessModal] = useState(false); // Estado para mostrar el modal de éxito
+    const [showErrorModal, setShowErrorModal] = useState(false); // Estado para mostrar el modal de error
+
+    // Hook para redirigir después del registro
+    const navigate = useNavigate();
 
     const handleSubmit = async(event) => {
         event.preventDefault();
 
+        // Validación de la contraseña
+        if(password.length < 8){
+            setPasswordError('La contraseña debe tener al menos 8 caracteres.');
+            console.log('La contraseña debe tener al menos 8 caracteres.');
+            return; // Detenemos la ejecución
+        }
         // 1. Validación simple: que las contraseñas coincidan
         if (password !== confirmPassword) {
             setError('Las contraseñas no coinciden.');
+            console.log('Las contraseñas no coinciden.');
             return; // Detenemos la ejecución
         }
         
@@ -44,26 +59,26 @@ export default function Registro(){
         setCargando(true);
 
         const usuario = {
-        nombres: "string",
-        apellido_paterno: "string",
-        apellido_materno: "string",
-        fecha_nacimiento: "2025-10-15",
-        sexo: "string",
-        email: "user@example.com",
-        password: "stringst"
+        nombres: nombres,
+        apellido_paterno: apellidoPaterno,
+        apellido_materno: apellidoMaterno,
+        fecha_nacimiento: fechaNacimiento,
+        sexo: "m",
+        email: email,
+        password: password
         };
         console.log('Datos del usuario a registrar:', usuario);
         try {
             // 4. Llamar a la función del servicio API
             const data = await registrarUsuario(usuario);
             console.log('Usuario registrado con éxito:', data);
-            alert('¡Registro exitoso! Ahora inicia sesión.'); // O un mensaje más elegante
-            navigate('/login'); // Redirigir al login después del registro exitoso
+            setShowSuccessModal(true); // Mostramos el modal
 
         } catch (error) {
             // 5. Si hay un error, lo mostramos al usuario
             setError(error.message || 'Ocurrió un error inesperado.');
             console.error(error);
+            setShowErrorModal(true); // Mostramos el modal de error
         } finally {
             // 6. Desactivar el estado de carga, tanto si hubo éxito como si hubo error
             setCargando(false);
@@ -163,7 +178,14 @@ export default function Registro(){
                                 className="input"
                                 type="password" placeholder="Contraseña" required
                                 value={password}
-                                onChange={(e) => setPassword(e.target.value)}
+                                onChange={(e) =>{
+                                    setPassword(e.target.value)
+                                    if(confirmPassword && e.target.value !== confirmPassword){
+                                        setPasswordError('Las contraseñas no coinciden');
+                                    } else {
+                                        setPasswordError('');
+                                    }
+                                }}
                             />
                         </label>
                         <label className="input-label">
@@ -172,14 +194,50 @@ export default function Registro(){
                                 className="input"
                                 type="password" placeholder="Confirmar contraseña" required
                                 value={confirmPassword}
-                                onChange={(e) => setConfirmPassword(e.target.value)}
+                                onChange={(e) => {
+                                    setConfirmPassword(e.target.value); // Actualiza el estado como siempre
+                                    // Ahora, compara con el estado 'password'
+                                    if (password !== e.target.value) {
+                                        setPasswordError('Las contraseñas no coinciden');
+                                    } else {
+                                        setPasswordError(''); // Si coinciden, limpia el error
+                                    }
+                                }}
                             />
+                            {passwordError && <p style={{ color: '#e53e3e', fontSize: '0.8rem', marginTop: '4px', textAlign: 'left' }}>{passwordError}</p>}
                         </label>
                         <button className="btn-registrarse" type="submit">Registrarse</button>
                         <p>¿Ya tienes una cuenta? <Link to="/login" className="link-iniciar-sesion">Inicia sesión</Link></p>    
                     </form>
                 </CardForm>
             </section>
+            {showSuccessModal && (
+            <div className="modal-overlay">
+                <div className="modal-card">
+                    <h2>¡Registro Exitoso!</h2>
+                    <p>Tu cuenta ha sido creada correctamente. Ahora serás redirigido para iniciar sesión.</p>
+                    <button 
+                        className="btn-modal-ok" 
+                        onClick={() => navigate('/login')}
+                    >
+                        OK
+                    </button>
+                </div>
+            </div>
+        )}
+        {showErrorModal && (
+            <div className="modal-overlay">
+                <div className="modal-card">
+                    <h2>¡Error en el registro!</h2>
+                    <p>{error}</p>
+                    <button 
+                        className="btn-modal-error" 
+                        onClick={() => setShowErrorModal(false)}
+                    >
+                        OK
+                    </button>
+                </div>
+            </div>)}
         </AuthLayout>
     )
 }
