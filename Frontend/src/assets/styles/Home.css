@@ -3,6 +3,8 @@ nav{
     justify-content: space-between;
     align-items: center;
     background-color: #F6F8F8;
+    border-bottom: 1px solid #DADADA;
+    padding: 10px 0px;
 }
 
 .logo-palma{
@@ -20,8 +22,8 @@ nav{
     display: flex;
     justify-content: flex-end;
     gap: 15px;
-    width: 45%;
-    padding-right: 20px;
+    width:90%;
+    padding-right: 15px;
 }
 
 Link{
@@ -34,24 +36,98 @@ Link:hover{
     opacity: 0.9;
 }
 
+.button{
+    max-width: 150px;
+    width: 50%;
+    height: 30px;
+    font-size: 17px;
+    font-family: Arial, Helvetica, sans-serif;
+}
 .button-regisrtrarse{
     /*Estilos para colores*/
     background-color: #13A4EC;
     color: #ffffff;
-    padding:  10px 20px;
+    padding:  10px 10px;
     border-radius: 5px;
     text-decoration: none;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    text-align: center;
 }
-
 
 .button-login{
     background-color: #C9E7F5;
     color: #13A4EC;
-    padding:  10px 20px;
+    padding:  10px 10px;
     border-radius: 5px;
     text-decoration: none;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    text-align: center;
 }
 
 .text-bold{
     font-weight: bold;
+}
+
+.container-home{
+    background-image: linear-gradient(rgba(0, 0, 0, 0.5), rgba(0, 0, 0, 0.5)), url('../images/fondo-lsm.jpg');
+    background-repeat: no-repeat;
+    background-size: cover;
+    background-position: center center;
+    background-attachment: fixed;
+    padding: 10px;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+}
+
+.titulo-home{
+    text-align: center;
+    font-size: 80px;
+    color: #ffffff;
+    font-family: Arial, Helvetica, sans-serif;
+    margin-bottom: 4px;
+    font-weight: extra-bold;
+}
+
+.descripcion-home{
+    text-align: center;
+    font-family: Arial, Helvetica, sans-serif;
+    font-size: 40px;
+    color: #ffffff;;
+    
+    font-weight: bold;
+}
+
+h3{
+    text-align: center;
+    font-family: Arial, Helvetica, sans-serif;
+    font-size: 25px;
+    color: #ffffff;;
+    margin-top: 0px;
+    font-weight: 500;
+}
+
+.btn-comenzar{
+    max-width: 300px;
+    width: 50%;
+    background-color: #1B396A;
+    color: #ffffff;
+    height: 50px;
+    border-radius: 5px;
+    margin-bottom: 20px;
+    
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    
+    font-weight: bold;
+    font-family: Arial, Helvetica, sans-serif;
+    text-align: center;
+    text-decoration: none;
+    font-size: 1.5rem;
 }

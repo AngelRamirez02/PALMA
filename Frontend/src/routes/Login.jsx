@@ -23,7 +23,25 @@ export default function Login(){
             </nav>
             <section>
                 <CardForm>
-                    <h2 className="title-form">Iniciar Sesión</h2>
+                    <h1 className="title-form">Iniciar Sesión</h1>
+                    <form action="">
+                        <label className="input-label">
+                            Correo Electrónico
+                            <input 
+                            className="input"
+                            type="email" name="email" placeholder="Ingresa tu correo electrónico" required 
+                            />
+                        </label>
+                        <label className="input-label">
+                            Contraseña
+                            <input 
+                                className="input"
+                                type="password" placeholder="Contraseña" required
+                            />
+                        </label>
+                        <button className="btn-registrarse" type="submit">Iniciar sesión</button>
+                        <p>No tienes cuenta?<Link to="/registro" className="link-iniciar-sesion">Crear cuenta</Link></p>
+                    </form>
                 </CardForm>
             </section>
         </AuthLayout>
