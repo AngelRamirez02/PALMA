@@ -9,7 +9,6 @@ class UserBase(BaseModel):
     fecha_nacimiento: date
     sexo: str = Field(..., max_length=10)
     # Pydantic validará automáticamente que esto sea un email.
-    # (Necesitas instalar 'pip install email-validator')
     email: EmailStr
 
 # --- 2. Esquema para la Creación de Usuario (Lo que recibes en la API) ---

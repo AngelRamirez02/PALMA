@@ -16,12 +16,18 @@ app = FastAPI(
     version="0.1.0"
 )
 
+# Permitir orígenes (ajusta con tu puerto de React)
+app.add_middleware(
+    CORSMiddleware,
+    allow_origins=["http://localhost:5173"],  # o ["*"] si quieres todo abierto
+    allow_credentials=True,
+    allow_methods=["*"],
+    allow_headers=["*"],
+)
 # Ruta raíz de prueba
 @app.get("/")
 def read_root():
     return {"message": "¡API funcionando! Visita /docs para la documentación."}
 
-
 # Inclusión de los routers de la aplicación
 app.include_router(usuario_router.router, prefix="/api", tags=["Usuarios"])
-
