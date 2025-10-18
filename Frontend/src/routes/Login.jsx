@@ -23,6 +23,9 @@ export default function Login(){
             </nav>
             <section>
                 <CardForm>
+                    <div className="container-logo-registro">
+                        <img src={LogoPalma} alt="logo-palma" className="logo-palma-registro"/>
+                    </div>
                     <h1 className="title-form">Iniciar Sesión</h1>
                     <form action="">
                         <label className="input-label">

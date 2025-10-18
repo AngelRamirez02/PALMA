@@ -1,5 +1,3 @@
-// src/services/api.js
-
 /**
  * Función para registrar un nuevo usuario en el backend.
  * @param {object} usuarioData - Los datos del usuario a registrar.

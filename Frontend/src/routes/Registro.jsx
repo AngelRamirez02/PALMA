@@ -73,7 +73,6 @@ export default function Registro(){
             const data = await registrarUsuario(usuario);
             console.log('Usuario registrado con éxito:', data);
             setShowSuccessModal(true); // Mostramos el modal
-
         } catch (error) {
             // 5. Si hay un error, lo mostramos al usuario
             setError(error.message || 'Ocurrió un error inesperado.');
@@ -97,6 +96,9 @@ export default function Registro(){
             </nav>
             <section>
                 <CardForm>
+                    <div className="container-logo-registro">
+                        <img src={LogoPalma} alt="logo-palma" className="logo-palma-registro"/>
+                    </div>
                     <h1>Crea tu cuenta</h1>
                     <form className="form-registro" onSubmit={handleSubmit}>
                         <label className="input-label"> 
