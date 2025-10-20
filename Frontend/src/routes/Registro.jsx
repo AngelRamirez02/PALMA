@@ -63,7 +63,7 @@ export default function Registro(){
         apellido_paterno: apellidoPaterno,
         apellido_materno: apellidoMaterno,
         fecha_nacimiento: fechaNacimiento,
-        sexo: "m",
+        sexo: sexo,
         email: email,
         password: password
         };
