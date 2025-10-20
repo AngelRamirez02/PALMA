@@ -31,3 +31,7 @@ class User(UserBase):
     class Config:
         # Permite que Pydantic funcione con los modelos de SQLAlchemy
         from_attributes = True
+
+class UserLogin(BaseModel):
+    email: EmailStr
+    password: str

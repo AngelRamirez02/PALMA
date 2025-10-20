@@ -3,7 +3,7 @@ from sqlalchemy.orm import Session
 
 from db.database import SessionLocal
 from services.auth import get_users, get_user_by_email, create_user
-from schemas.usuario import User, UserCreate
+from schemas.usuario import User, UserCreate, UserLogin
 
 #Conexión a la base de datos
 def get_db():
@@ -33,3 +33,8 @@ def create_new_user(user: UserCreate, db: Session = Depends(get_db)):
     if db_user:
         raise HTTPException(status_code=400, detail="El email ya está registrado.")
     return create_user(db=db, user=user)
+
+#Inicio de sesión de usuario
+@router.post("/login")
+def login_user(user: UserLogin):    
+    return {"message": "Inicio de sesión exitoso para el usuario: {}".format(user.email)}

@@ -24,7 +24,7 @@ def create_user(db: Session, user: UserCreate):
     """
     Crea un nuevo usuario en la base de datos con la contraseña hasheada.
     """
-    #hashed_password = get_password_hash(user.password)
+    hashed_password = get_password_hash(user.password)
     
     db_user = Usuario(
         nombres=user.nombres,
@@ -33,7 +33,7 @@ def create_user(db: Session, user: UserCreate):
         fecha_nacimiento=user.fecha_nacimiento,
         sexo=user.sexo,
         email=user.email,
-        hashed_password=user.password  # Se guarda el hash, no la contraseña original
+        hashed_password=hashed_password  # Se guarda el hash, no la contraseña original
     )
     db.add(db_user)
     db.commit()
