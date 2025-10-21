@@ -4,10 +4,11 @@ import { createRoot } from 'react-dom/client'
 import App from './App.jsx'
 import {createBrowserRouter, RouterProvider} from "react-router-dom"
 
-//Páginas
+//PRutas de las paginas
 import Home from './routes/Home.jsx'
 import Registro from './routes/Registro.jsx'
 import Login from './routes/Login.jsx'
+import CursosDashboard from './routes/CursosDashboard.jsx'
 
 const router = createBrowserRouter([
   {
@@ -21,6 +22,10 @@ const router = createBrowserRouter([
   {
     path: "/login",
     element: <Login/>,
+  },
+  {
+    path: "/cursos",
+    element: <CursosDashboard/>,
   }
 ]);
 

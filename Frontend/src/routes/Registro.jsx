@@ -6,7 +6,7 @@ import AuthLayout from "../layout/AuthLayout.jsx"
 import NavButtonLogin from "../components/NavButtonLogin.jsx"
 import CardForm from "../components/CardForm.jsx"
 
-import { registrarUsuario } from "../api/RegitroUsuario.jsx"
+import { registrarUsuario } from "../api/RegitroUsuario.js"
 
 //Importar imágenes
 import LogoPalma from '../assets/images/logos/logo-palma.jpg' //Logo palma
