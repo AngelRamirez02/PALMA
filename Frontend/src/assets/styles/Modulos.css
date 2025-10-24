@@ -1,0 +1,38 @@
+.modulos-seccion{
+    display: flex;
+    justify-content: center;
+    padding: 15px;
+    background-color: #F6F8F8;
+}
+
+.contain-icon{
+    width: 40%;
+    margin-right: 10px;
+    padding: 15px;
+}
+
+.icon{
+    width: 90%;
+}
+
+.card-modulo{
+    background-color: #ffff;
+    max-width: 800px;
+    width: 90%;
+    
+    display: flex;
+    justify-content: center;
+    align-items: center;
+
+    margin: 30px;
+}
+
+@media screen and (max-width: 768px){
+    .card-modulo{
+        flex-wrap: wrap;
+    }
+    .icon{
+        width: 80%;
+        margin-top: 10px;
+    }
+}
