@@ -5,6 +5,8 @@ from db.database import engine, Base
 
 from endpoints import usuario_router
 
+from models import curso
+
 print("Creando tablas en la base de datos...")
 Base.metadata.create_all(bind=engine)
 print("Tablas creadas exitosamente")

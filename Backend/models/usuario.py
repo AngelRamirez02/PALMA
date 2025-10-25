@@ -2,7 +2,7 @@ from sqlalchemy import Column, Integer, String, Date
 from db.database import Base
 
 class Usuario(Base):
-    __tablename__ = 'usuario' #Nombre de la tyabla en la base de datos
+    __tablename__ = 'usuario' #Nombre de la tabla en la base de datos
 
     id = Column(Integer, primary_key=True, index=True)
     nombres = Column(String(100))
