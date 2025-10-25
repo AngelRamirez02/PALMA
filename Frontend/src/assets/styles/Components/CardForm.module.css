@@ -1,4 +1,4 @@
-.card-form{
+.card_form{
     max-width: 600px;
     width: 90%;
     background-color: #ffffff;
@@ -7,4 +7,5 @@
     align-items: center;
     margin: 20px 0 20px 0;
     box-shadow: 0 4px 8px rgba(0, 0, 0, 0.247);
+    border-radius: 8px;
 }

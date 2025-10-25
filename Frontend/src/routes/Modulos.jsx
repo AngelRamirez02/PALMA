@@ -3,20 +3,20 @@ import NavUser from "../components/NavUser";
 
 import icon_modulo from '../assets/images/icon-modulo.png'
 
-import '../assets/styles/Modulos.css'
+import classes from'../assets/styles/Routes/Modulos.module.css'
 
 export default function CursosDashboard() {
     return (
         <>
             <Logos />
             <NavUser/>
-            <section className="modulos-seccion">
-                <div className="card-modulo">
-                    <div className="contain-icon">
-                        <img src={icon_modulo} alt="icon-modulo" className="icon"/>
+            <section className={classes.modulos_seccion}>
+                <div className={classes.card_modulo}>
+                    <div className={classes.contain_icon}>
+                        <img src={icon_modulo} alt="icon-modulo" className={classes.icon}/>
                     </div>
-                    <div className="info-modulo">
-                        <strong>Vocales</strong>
+                    <div className={classes.info_modulo}>
+                        <h3>Hola</h3>
                         <p>Lorem ipsum dolor sit amet consectetur, adipisicing elit. Mollitia, velit dolorem! Repellat nobis dignissimos ut, ipsam odit aperiam laborum earum doloribus delectus distinctio expedita. Voluptatum accusamus illum vero possimus fugit!</p>
                         <button>Comenzar</button>
                     </div>

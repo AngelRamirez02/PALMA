@@ -1,0 +1,40 @@
+.button{
+    max-width: 150px;
+    width: 50%;
+    height: 30px;
+    font-size: 17px;
+    font-family: Arial, Helvetica, sans-serif;
+}
+
+.button_login{
+
+    max-width: 150px;
+    width: 50%;
+    height: 30px;
+    font-size: 17px;
+    font-family: Arial, Helvetica, sans-serif;
+
+    background-color: #C9E7F5;
+    color: #13A4EC;
+    padding:  10px 10px;
+    border-radius: 5px;
+    text-decoration: none;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    text-align: center;
+}
+
+.text_bold{
+    font-weight: bold;
+}
+
+Link{
+    max-width: 150px;
+    width: 50%;
+    height:40px;
+}
+Link:hover{
+    cursor: pointer;
+    opacity: 0.9;
+}

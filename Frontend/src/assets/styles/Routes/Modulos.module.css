@@ -1,11 +1,11 @@
-.modulos-seccion{
+.modulos_seccion{
     display: flex;
     justify-content: center;
     padding: 15px;
     background-color: #F6F8F8;
 }
 
-.contain-icon{
+.contain_icon{
     width: 40%;
     margin-right: 10px;
     padding: 15px;
@@ -15,7 +15,7 @@
     width: 90%;
 }
 
-.card-modulo{
+.card_modulo{
     background-color: #ffff;
     max-width: 800px;
     width: 90%;
@@ -28,7 +28,7 @@
 }
 
 @media screen and (max-width: 768px){
-    .card-modulo{
+    .card_modulo{
         flex-wrap: wrap;
     }
     .icon{

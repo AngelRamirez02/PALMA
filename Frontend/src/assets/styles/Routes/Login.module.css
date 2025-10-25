@@ -1,10 +1,10 @@
-section{
+.section{
     display: flex;
     justify-content: center;
     align-items: center;
 }
 
-form{
+.form_login{
     display: flex;
     flex-direction: column;
     align-items: center;
@@ -13,26 +13,19 @@ form{
     margin-top: 20px;
 }
 
-.container-logo-registro{
+.container_logo-registro{
     display: flex;
     align-items: center;
     margin-top: 20px;
 }
 
-.logo-palma-registro{
+.logo_palma_registro{
     max-width: 250px;
     height: auto;
     width: 100%;
 }
 
-h1{
-    font-family: Arial, Helvetica, sans-serif;
-    font-size: 2rem;
-    color: #000000;
-    margin-top: 4px;
-}
-
-.input-label{
+.input_label{
     display: flex;
     flex-direction: column;
     width: 80%;
@@ -48,16 +41,7 @@ h1{
     font-family: Arial, Helvetica, sans-serif
 }
 
-.container-sexo{
-    display: flex;
-    flex-direction: column;
-    align-items: flex-start;
-    width: 80%;
-    font-family: Arial, Helvetica, sans-serif;
-    gap: 5px
-}
-
-.btn-registrarse{
+.btn_login{
     padding: 10px 20px;
     background-color: #1877F2;
     color: white;
@@ -69,8 +53,7 @@ h1{
     width: 80%;
 }
 
-/* Estilos para el Modal de Éxito */
-.modal-overlay {
+.modal_overlay {
     position: fixed; /* Se posiciona sobre toda la pantalla */
     top: 0;
     left: 0;
@@ -83,7 +66,7 @@ h1{
     z-index: 1000; /* Asegura que esté por encima de todo */
 }
 
-.modal-card {
+.modal_card {
     background-color: white;
     padding: 30px;
     border-radius: 12px;
@@ -93,34 +76,17 @@ h1{
     max-width: 400px; /* Ancho máximo de la tarjeta */
 }
 
-.modal-card h2 {
+.modal_card h2 {
     margin-top: 0;
     color: #2c5282; /* Un color azul oscuro */
 }
 
-.modal-card p {
+.modal_card p {
     margin-bottom: 25px;
     color: #4a5568; /* Un color gris */
 }
 
-.btn-modal-ok {
-    background-color: #3182ce; /* Azul */
-    color: white;
-    border: none;
-    padding: 12px 30px;
-    border-radius: 8px;
-    font-size: 1rem;
-    font-weight: bold;
-    cursor: pointer;
-    transition: background-color 0.2s;
-}
-
-.btn-modal-ok:hover {
-  background-color: #2b6cb0; /* Azul más oscuro */
-}
-
-/*Modal de error*/
-.btn-modal-error {
+.btn_modal_error {
     background-color: #ce3131; /* Azul */
     color: white;
     border: none;

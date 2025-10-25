@@ -1,10 +1,10 @@
 import { Children } from "react"
 
-import '../assets/styles/CardForm.css'
+import classes from '../assets/styles/Components/CardForm.module.css'
 
 export default function CardLogin({children}){
     return(
-        <div className="card-form">
+        <div className={classes.card_form}>
             {children}
         </div>
     )

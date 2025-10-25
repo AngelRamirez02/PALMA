@@ -5,14 +5,14 @@ import { useState } from "react";
 import { loginUser } from "../api/Login.js"
 
 import AuthLayout from "../layout/AuthLayout"
-import NavButtonRegistro from "../components/NavButtonRegistro.jsx"
+import NavAuth from "../components/NavAuth.jsx";
 import CardForm from "../components/CardForm.jsx"
 
 //Importar imágenes
 import LogoPalma from '../assets/images/logos/logo-palma.jpg' //Logo palma
 
 //Importar estilos
-import '../assets/styles/Home.css'
+import classes from '../assets/styles/Routes/Login.module.css'
 
 export default function Login(){
     //Estados para los imputs
@@ -56,51 +56,44 @@ export default function Login(){
     
     return(
         <AuthLayout>
-            <nav>
-            <Link to="/" className="container-logo">
-                <img src={LogoPalma} alt="logo-palma" className="logo-palma"/>
-            </Link>
-                <div className="container-buttons">
-                    <NavButtonRegistro/>
-                </div>
-            </nav>
-            <section>
+            <NavAuth/>
+            <section className={classes.section}>
                 <CardForm>
-                    <div className="container-logo-registro">
-                        <img src={LogoPalma} alt="logo-palma" className="logo-palma-registro"/>
+                    <div className={classes.container_logo_registro}>
+                        <img src={LogoPalma} alt="logo-palma" className={classes.logo_palma_registro}/>
                     </div>
-                    <h1 className="title-form">Iniciar Sesión</h1>
-                    <form onSubmit={handleSubmit}>
-                        <label className="input-label">
+                    <h1 className="title_form">Iniciar Sesión</h1>
+                    <form onSubmit={handleSubmit} className={classes.form_login}>
+                        <label className={classes.input_label}>
                             Correo Electrónico
                             <input 
-                            className="input"
+                            className={classes.input}
                             type="email" name="email" placeholder="Ingresa tu correo electrónico" required 
                             value={email}
                             onChange={(e) => setEmail(e.target.value)}
                             />
                         </label>
-                        <label className="input-label">
+                        <label className={classes.input_label}>
                             Contraseña
                             <input 
-                                className="input"
+                                className={classes.input}
                                 type="password" placeholder="Contraseña" required
                                 value={password}
                                 onChange={(e) => setPassword(e.target.value)}
                             />
                         </label>
-                        <button className="btn-registrarse" type="submit">Iniciar sesión</button>
+                        <button className={classes.btn_login} type="submit">Iniciar sesión</button>
                         <p>No tienes cuenta?<Link to="/registro" className="link-iniciar-sesion">Crear cuenta</Link></p>
                     </form>
                 </CardForm>
             </section>
             {showErrorModal && (
-            <div className="modal-overlay">
-                <div className="modal-card">
+            <div className={classes.modal_overlay}>
+                <div className={classes.modal_card}>
                     <h2>¡Error!</h2>
                     <p>{error}</p>
                     <button 
-                        className="btn-modal-error" 
+                        className={classes.btn_modal_error} 
                         onClick={() => setShowErrorModal(false)}
                     >
                         OK

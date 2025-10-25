@@ -1,0 +1,32 @@
+.button_regisrtrarse{
+    max-width: 150px;
+    width: 50%;
+    height: 30px;
+    font-size: 17px;
+    font-family: Arial, Helvetica, sans-serif;
+
+    /*Estilos para colores*/
+    background-color: #13A4EC;
+    color: #ffffff;
+    padding:  10px 10px;
+    border-radius: 5px;
+    text-decoration: none;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    text-align: center;
+}
+
+.text_bold{
+    font-weight: bold;
+}
+
+Link{
+    max-width: 150px;
+    width: 50%;
+    height:40px;
+}
+Link:hover{
+    cursor: pointer;
+    opacity: 0.9;
+}

@@ -1,0 +1,27 @@
+.nav_auth{
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    background-color: #F6F8F8;
+    border-bottom: 1px solid #DADADA;
+    padding: 10px 0px;
+}
+
+.logo_palma{
+    max-width: 200px;
+    height: auto;
+    width: 80%;
+}
+
+.container_logo{
+    display: flex;
+    align-items: center;
+}
+
+.container_buttons{
+    display: flex;
+    justify-content: flex-end;
+    gap: 15px;
+    width:90%;
+    padding-right: 15px;
+}
