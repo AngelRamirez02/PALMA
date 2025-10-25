@@ -10,6 +10,10 @@ import Registro from './routes/Registro.jsx'
 import Login from './routes/Login.jsx'
 import Modulos from './routes/Modulos.jsx'
 
+//Componente para ruta protegita
+import ProtectedRoute from './components/ProtectedRoute.jsx'
+
+// --- Rutas Públicas ---
 const router = createBrowserRouter([
   {
     path: "/",
@@ -23,10 +27,17 @@ const router = createBrowserRouter([
     path: "/login",
     element: <Login/>,
   },
+
+  // -- Rutas Protegidas ---
   {
-    path: "/modulos",
-    element: <Modulos/>,
-  }
+    element: <ProtectedRoute />, 
+    children: [
+      {
+        path: "modulos",
+        element: <Modulos/>,
+      }
+    ]
+  },
 ]);
 
 createRoot(document.getElementById('root')).render(
