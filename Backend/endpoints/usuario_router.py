@@ -30,7 +30,7 @@ def create_access_token(data: dict) -> str:
     """
     to_encode = data.copy()
     # Define el tiempo de expiración del token (desde ahora en UTC)
-    expire = datetime.now(timezone.utc) + timedelta(seconds=settings.ACCESS_TOKEN_EXPIRE_MINUTES)
+    expire = datetime.now(timezone.utc) + timedelta(seconds=settings.ACCESS_TOKEN_EXPIRE_SECONDS)
     
     # Agrega los claims de expiración (exp) y "emitido en" (iat) al payload
     to_encode.update({"exp": expire, "iat": datetime.now(timezone.utc)})
@@ -68,4 +68,9 @@ def login_user(user: UserLogin,db: Session = Depends(get_db)):
         raise HTTPException(status_code=400, detail="Email o contraseña incorrectos.")
         
     token_jw = create_access_token(data={"sub": db_user.email})
-    return {"access_token": token_jw, "token_type": "bearer"}
+    # Devuelve el token, el tipo, y la duración en segundos.
+    return {
+        "access_token": token_jw,
+        "token_type": "bearer",
+        "expires_in": settings.ACCESS_TOKEN_EXPIRE_SECONDS # Envía la duración
+    }

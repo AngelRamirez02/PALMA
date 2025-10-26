@@ -11,9 +11,8 @@ class UserBase(BaseModel):
     # Pydantic validará automáticamente que esto sea un email.
     email: EmailStr
 
-# --- 2. Esquema para la Creación de Usuario (Lo que recibes en la API) ---
+# --- Esquema para la Creación de Usuario (Lo que recibe la API) ---
 class UserCreate(UserBase):
-    # --- LA SOLUCIÓN ESTÁ AQUÍ ---
     # Se establece una longitud máxima de 72 caracteres para la contraseña,
     # que es el límite de bcrypt. También se añade una longitud mínima por seguridad.
     password: str = Field(

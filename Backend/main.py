@@ -1,15 +1,18 @@
 from fastapi import FastAPI
 from fastapi.middleware.cors import CORSMiddleware
+from fastapi.staticfiles import StaticFiles
 
 from db.database import engine, Base
 
 from endpoints import usuario_router
+from endpoints import modulo_router
 
-from models import curso
+from  models import modulo
 
 print("Creando tablas en la base de datos...")
 Base.metadata.create_all(bind=engine)
 print("Tablas creadas exitosamente")
+
 
 # Creación de la instancia de la aplicación FastAPI
 app = FastAPI(
@@ -26,6 +29,9 @@ app.add_middleware(
     allow_methods=["*"],
     allow_headers=["*"],
 )
+
+app.mount("/static", StaticFiles(directory="static"), name="static")
+
 # Ruta raíz de prueba
 @app.get("/")
 def read_root():
@@ -33,3 +39,5 @@ def read_root():
 
 # Inclusión de los routers de la aplicación
 app.include_router(usuario_router.router, prefix="/api", tags=["Usuarios"])
+
+app.include_router(modulo_router.router, prefix="/api", tags=["Modulos"])

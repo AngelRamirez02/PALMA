@@ -14,6 +14,7 @@ class Settings(BaseSettings):
     SECRET_KEY: str
     ALGORITHM: str
     ACCESS_TOKEN_EXPIRE_MINUTES: int
+    ACCESS_TOKEN_EXPIRE_SECONDS: int
 
     # Configuración para que Pydantic lea desde un archivo .env
     # Esta es la nueva forma de hacerlo en Pydantic v2.
