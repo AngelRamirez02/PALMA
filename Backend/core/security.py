@@ -1,10 +1,8 @@
-from fastapi import Depends, HTTPException, status
-from fastapi.security import OAuth2PasswordBearer
+from fastapi import HTTPException, status
 from sqlalchemy.orm import Session
-from jose import jwt, exceptions
+from jose import jwt, JWTError
 from core.config import settings
 from db.database import SessionLocal
-import models
 
 from passlib.context import CryptContext
 # Creamos una instancia de CryptContext.
@@ -25,10 +23,7 @@ def get_password_hash(password: str) -> str:
     """
     return pwd_context.hash(password)
 
-# La URL es la de tu endpoint de login.
-oauth2_scheme = OAuth2PasswordBearer(tokenUrl="/api/usuarios/login")
-
-# Función para obtener la BD (ya la tienes, pero la necesitamos aquí)
+# Función para obtener la BD
 def get_db():
     db = SessionLocal()
     try:
@@ -36,37 +31,28 @@ def get_db():
     finally:
         db.close()
 
-# 2. Esta es la nueva dependencia "guardián" 🛡️
-def get_current_user(token: str = Depends(oauth2_scheme), db: Session = Depends(get_db)):
+def verificar_token(access_token: str, db:Session):
     """
-    Dependencia para obtener el usuario actual a partir de un token JWT.
+    Validar el token y obtener el usario.
     """
     from services.auth import get_user_by_email
-    credentials_exception = HTTPException(
+
+    credentials_exception = HTTPException( #
         status_code=status.HTTP_401_UNAUTHORIZED,
-        detail="No se pudieron validar las credenciales",
+        detail="Usuario no indentificado",
         headers={"WWW-Authenticate": "Bearer"},
     )
-    
-    try:
-        # Decodifica el token usando la clave secreta
-        payload = jwt.decode(
-            token, settings.SECRET_KEY, algorithms=[settings.ALGORITHM]
-        )
-        
-        # Extrae el email del subject del token
-        email: str = payload.get("sub")
-        if email is None:
-            raise credentials_exception
-            
-    except exceptions.ExpiredSignatureError:
-        # Si el token está expirado o es inválido, lanza un error
+    if access_token is None: #Si el token está vacio
         raise credentials_exception
-
-    #Verifica que el usuario del token realmente exista en la BD
-    user = get_user_by_email(db, email=email)
+    try:
+        #Decodificar el token
+        user_info = jwt.decode(access_token, key=settings.SECRET_KEY, algorithms=settings.ALGORITHM)
+        email: str = user_info.get('sub')#Obtener el correo del usuario
+    except JWTError:#Error al codificar el token
+        raise credentials_exception
+    
+    #Verificar que el correo sea uno existente
+    user = get_user_by_email(db,email=email)
     if user is None:
         raise credentials_exception
-    
-    #Si todo está bien, devuelve el objeto del usuario
     return user

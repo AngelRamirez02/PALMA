@@ -76,30 +76,3 @@ def login_user(user: UserLogin,db: Session = Depends(get_db)):
         "token_type": "bearer",
         "expires_in": settings.ACCESS_TOKEN_EXPIRE_SECONDS # Envía la duración
     }
-
-@router.post("/login/api")
-def login_user_api(
-    db: Session = Depends(get_db),
-    form_data: OAuth2PasswordRequestForm = Depends()
-):
-    # El email vendrá en el campo 'username' del formulario
-    db_user = get_user_by_email(db, email=form_data.username)
-    
-    # Verifica si el usuario existe
-    if not db_user:
-        raise HTTPException(status_code=400, detail="Email o contraseña incorrectos.")
-        
-    # Verifica la contraseña del formulario
-    if not verify_password(form_data.password, db_user.hashed_password):
-        raise HTTPException(status_code=400, detail="Email o contraseña incorrectos.")
-    
-    # Crea el token
-    token_jw = create_access_token(data={"sub": form_data.username})
-    
-    #Devuelve la respuesta
-    return {
-        "access_token": token_jw,
-        "token_type": "bearer",
-        "expires_in": settings.ACCESS_TOKEN_EXPIRE_SECONDS 
-    }
-
