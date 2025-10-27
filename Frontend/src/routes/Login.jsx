@@ -41,10 +41,19 @@ export default function Login(){
         try {
             const data = await loginUser(UserCredenciales);
             console.log('Inicio de sesión exitoso:', data);
-            // Aquí puedes redirigir al usuario o guardar el token, etc.
-            //El componente se encarga de los efectos secundarios (guardar token y navegar)
-            localStorage.setItem('accessToken', data.access_token);
-            navigate('/cursos')
+            // 2. Obtenemos los segundos de validez que envía la API (ej: 1800)
+            const expiresInSeconds = data.expires_in;
+
+            //Calculamos la marca de tiempo (timestamp) exacta de expiración
+            //(new Date().getTime() da milisegundos actuales)
+            const expirationTime = new Date().getTime() + (expiresInSeconds * 1000);
+
+            // Guardamos AMBOS datos en localStorage
+            localStorage.setItem('access_token', data.access_token);
+            localStorage.setItem('expires_in', expirationTime);
+            
+            //Redirigir 
+            navigate('/modulos')
         } catch (err) {
             console.error('Error en el inicio de sesión:', err);
             setError(err.message); // Mostrar el mensaje de error al usuario
@@ -99,7 +108,8 @@ export default function Login(){
                         OK
                     </button>
                 </div>
-            </div>)}
+            </div>
+            )}
         </AuthLayout>
     )   
 }

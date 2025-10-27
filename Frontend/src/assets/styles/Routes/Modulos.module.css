@@ -12,7 +12,7 @@
 }
 
 .icon{
-    width: 90%;
+    width: 80%;
 }
 
 .card_modulo{
@@ -21,11 +21,13 @@
     width: 90%;
     
     display: flex;
-    justify-content: center;
     align-items: center;
 
     margin: 30px;
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.247);
+    border-radius: 8px;
 }
+
 
 @media screen and (max-width: 768px){
     .card_modulo{
