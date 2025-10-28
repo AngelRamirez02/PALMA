@@ -3,6 +3,8 @@ from sqlalchemy.orm import Session
 from db.database import SessionLocal
 from core.security import verificar_token
 
+from models import ContenidoModulo
+
 from services.modulos import get_modulos
 from schemas import usuario
 

@@ -4,10 +4,11 @@ from fastapi.staticfiles import StaticFiles
 
 from db.database import engine, Base
 
+import models
+
 from endpoints import usuario_router
 from endpoints import modulo_router
 
-from  models import modulo
 
 print("Creando tablas en la base de datos...")
 Base.metadata.create_all(bind=engine)
