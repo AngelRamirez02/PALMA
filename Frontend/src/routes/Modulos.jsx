@@ -47,17 +47,21 @@ export default function CursosDashboard() {
         <>
             <Logos />
             <NavUser/>
-            <h2>Modulos de aprendizaje</h2>
             <section className={classes.modulos_seccion}>
+                <h2 className={classes.titulo_section}>Modulos de aprendizaje</h2>
                 {modulos.map(modulo =>(
                     <div key={modulo.id} className={classes.card_modulo}>
                         <div className={classes.contain_icon}>
                             <img src={modulo.link_imagen} alt="icon-modulo" className={classes.icon}/>
                         </div>
                         <div className={classes.info_modulo}>
-                            <h3>{modulo.nombre}</h3>
-                            <p>{modulo.descripcion}</p>
-                            <button onClick={ () => handleModuloClick(modulo.id) }>Comenzar</button>
+                            <h3 className={classes.titulo_modulo}>{modulo.nombre}</h3>
+                            <p className={classes.descrip_modulo}>{modulo.descripcion}</p>
+                            <div className={classes.container_btn}>
+                                <button 
+                                className={classes.btn_modulo}
+                                onClick={ () => handleModuloClick(modulo.id) }>Comenzar</button>
+                            </div>
                         </div>
                     </div>
                     ))}

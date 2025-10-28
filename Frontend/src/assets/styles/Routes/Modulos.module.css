@@ -1,14 +1,21 @@
 .modulos_seccion{
     display: flex;
-    justify-content: center;
+    flex-direction: column;
+    align-items: center;
     padding: 15px;
     background-color: #F6F8F8;
 }
 
+.titulo_section{
+    font-size: 2rem;
+    font-family: Arial, Helvetica, sans-serif;
+    margin-bottom: 10px;
+}
+
 .contain_icon{
     width: 40%;
-    margin-right: 10px;
     padding: 15px;
+    text-align: center;
 }
 
 .icon{
@@ -22,16 +29,60 @@
     
     display: flex;
     align-items: center;
+    justify-content: center;
 
     margin: 30px;
     box-shadow: 0 4px 8px rgba(0, 0, 0, 0.247);
     border-radius: 8px;
 }
 
+.info_modulo{
+    width: 60%;
+    padding: 10px 15px 10px 10px;
+}
+
+.titulo_modulo{
+    font-family: Arial, Helvetica, sans-serif;
+    text-align: center;
+    font-size: 1.8rem;
+    margin: 20px 8px;
+}
+
+.descrip_modulo{
+    font-family: Arial, Helvetica, sans-serif;
+    text-align: justify;
+    margin-right: 10px;
+    font-size: 1.2rem;
+}
+
+.container_btn{
+    display: flex;
+    justify-content: center;
+    margin-bottom: 10px;
+}
+
+.btn_modulo{
+    width: 70%;
+    color: #fff;
+    font-weight: bold;
+    font-family: Arial, Helvetica, sans-serif;
+    font-size: 1.4rem;
+    background-color: #1877F2;
+    border-radius: 8px;
+    padding: 12px;
+    border: none;
+}
+
+.btn_modulo:hover{
+    cursor: pointer;
+}
 
 @media screen and (max-width: 768px){
     .card_modulo{
         flex-wrap: wrap;
+    }
+    .info_modulo{
+        width: 80%;
     }
     .icon{
         width: 80%;
