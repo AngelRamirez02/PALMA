@@ -5,7 +5,7 @@ from core.security import verificar_token
 
 from models import ContenidoModulo
 
-from services.modulos import get_modulos
+from services.modulos import get_modulos, get_contenidoModulo
 from schemas import usuario
 
 from typing import Annotated
@@ -37,3 +37,8 @@ def read_modulos(db:Session = Depends(get_db),
 def read_modulos(db:Session = Depends(get_db), access_token: Annotated[str | None, Header()] = None):
     usuario = verificar_token(access_token, db)
     return get_modulos(db)
+
+@router.get("/{id_modulo}/contenido")
+def contenido_modulo(id_modulo: int, db: Session = Depends(get_db),access_token: Annotated[str | None, Header()] = None):
+    usuario = verificar_token(access_token, db)
+    return get_contenidoModulo(db,id_modulo)
