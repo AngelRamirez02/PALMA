@@ -4,13 +4,13 @@ import Logos from "../components/Logos";
 import NavUser from "../components/NavUser";
 
 import {getModulos} from '../api/Modulos.js'
-
-import icon_modulo from '../assets/images/icon-modulo.png'
+import { useData } from "../components/ContextModulo.jsx";
+import { useNavigate } from "react-router-dom";
 
 import classes from'../assets/styles/Routes/Modulos.module.css'
 
 export default function CursosDashboard() {
-
+    const navigate = useNavigate();
     const [modulos, setModulos] = useState([]);
     const [error, setError] = useState();
 
@@ -43,6 +43,18 @@ export default function CursosDashboard() {
     cargarModulos();
   }, []); // El array vacío asegura que se ejecute solo una vez
 
+    const { cargarModulo, contenidos, total_contenido,contenido_actual,loading } = useData();
+    const handleModuloClick = async(idModulo)=>{
+        if(!loading){
+            try {
+                await cargarModulo(idModulo);
+                navigate('/modulo/contenido');
+            } catch (err) {
+                setError(err.message);
+            }
+        }
+    }
+
     return (
         <>
             <Logos />
@@ -60,7 +72,9 @@ export default function CursosDashboard() {
                             <div className={classes.container_btn}>
                                 <button 
                                 className={classes.btn_modulo}
-                                onClick={ () => handleModuloClick(modulo.id) }>Comenzar</button>
+                                onClick={ () => handleModuloClick(modulo.id) 
+                                    
+                                }>Comenzar</button>
                             </div>
                         </div>
                     </div>

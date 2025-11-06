@@ -9,9 +9,11 @@ import Home from './routes/Home.jsx'
 import Registro from './routes/Registro.jsx'
 import Login from './routes/Login.jsx'
 import Modulos from './routes/Modulos.jsx'
+import ContenidoModulo from './routes/ContenidoModulo.jsx'
 
 //Componente para ruta protegita
 import ProtectedRoute from './components/ProtectedRoute.jsx'
+import { DataContextProvider } from './components/ContextModulo.jsx'
 
 // --- Rutas Públicas ---
 const router = createBrowserRouter([
@@ -30,14 +32,24 @@ const router = createBrowserRouter([
 
   // -- Rutas Protegidas ---
   {
-    element: <ProtectedRoute />, 
-    children: [
-      {
-        path: "modulos",
-        element: <Modulos/>,
-      }
-    ]
-  },
+  // Este <ProtectedRoute /> protege a TODOS sus hijos
+  element: <ProtectedRoute />, 
+  children: [
+    {
+      element: <DataContextProvider />, //El Provider solo envuelve a este grupo
+      children: [
+        {
+          path: "modulos",
+          element: <Modulos />,
+        },
+        {
+          path: "modulo/contenido", 
+          element: <ContenidoModulo />
+        }
+      ]
+    }
+  ]
+},
 ]);
 
 createRoot(document.getElementById('root')).render(
