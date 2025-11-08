@@ -48,7 +48,7 @@ export default function CursosDashboard() {
         if(!loading){
             try {
                 await cargarModulo(idModulo);
-                navigate('/modulo/contenido');
+                navigate(`/modulo/contenido/${idModulo}`);
             } catch (err) {
                 setError(err.message);
             }

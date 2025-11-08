@@ -4,12 +4,13 @@ import { createRoot } from 'react-dom/client'
 import App from './App.jsx'
 import {createBrowserRouter, RouterProvider} from "react-router-dom"
 
-//PRutas de las paginas
+//Rutas de las paginas
 import Home from './routes/Home.jsx'
 import Registro from './routes/Registro.jsx'
 import Login from './routes/Login.jsx'
 import Modulos from './routes/Modulos.jsx'
 import ContenidoModulo from './routes/ContenidoModulo.jsx'
+import PracticaModulo from './routes/PracticaModulo.jsx'
 
 //Componente para ruta protegita
 import ProtectedRoute from './components/ProtectedRoute.jsx'
@@ -43,8 +44,12 @@ const router = createBrowserRouter([
           element: <Modulos />,
         },
         {
-          path: "modulo/contenido", 
+          path: "modulo/contenido/:idModulo", 
           element: <ContenidoModulo />
+        },
+        {
+          path: "practica/modulo/:idModulo/contenido/:idContenido",
+          element: <PracticaModulo />
         }
       ]
     }
