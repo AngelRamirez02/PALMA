@@ -10,12 +10,10 @@ import classes from '../assets/styles/Routes/ContenidoModulo.module.css'
 
 export default function ContenidoModulo(){
     const {idModulo} = useParams();
-
+    
     const navigate = useNavigate();
 
     const { cargarModulo, contenidos, contenido_actual,pasoActual,loading, error } = useData();
-
-    console.log(contenido_actual);
 
     useEffect(() => async () => {
     // Si no estamos cargando y el array de contenidos está vacio
@@ -29,7 +27,7 @@ export default function ContenidoModulo(){
 
     const handlePracticarClick = () => {
         // Navegar a la página de práctica del módulo actual
-        navigate(`/practica/modulo/${idModulo}/contenido/${contenido_actual.id}`)
+        navigate(`/practica/modulo/${idModulo}/contenido/${pasoActual}`)
     }
 
     // --- Renderizado ---

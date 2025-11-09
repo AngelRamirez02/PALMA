@@ -48,7 +48,7 @@ const router = createBrowserRouter([
           element: <ContenidoModulo />
         },
         {
-          path: "practica/modulo/:idModulo/contenido/:idContenido",
+          path: "practica/modulo/:idModulo/contenido/:pasoActualModulo",
           element: <PracticaModulo />
         }
       ]

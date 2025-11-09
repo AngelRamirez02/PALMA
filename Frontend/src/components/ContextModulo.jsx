@@ -67,6 +67,7 @@ export function DataContextProvider(){
         //Funciones
         cargarModulo,
         irSiguiente,
+        setPasoActual,
 
         //Valores y estados
         contenidos,
@@ -78,7 +79,7 @@ export function DataContextProvider(){
     }
     return(
         <DataContext.Provider value={valor}>
-            {}
+            
             <Outlet/>
         </DataContext.Provider>
     );
