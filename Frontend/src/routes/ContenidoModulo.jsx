@@ -9,24 +9,36 @@ import {useData} from "../components/ContextModulo.jsx";
 import classes from '../assets/styles/Routes/ContenidoModulo.module.css'
 
 export default function ContenidoModulo(){
-    const {idModulo} = useParams();
+    // Obtenemos ambos parametros de la url
+    const {idModulo, idContenido} = useParams(); 
     
     const navigate = useNavigate();
 
-    const { cargarModulo, contenidos, contenido_actual,pasoActual,loading, error } = useData();
+    // Obtenemos setPasoActual del contexto
+    const { cargarModulo, contenidos, contenido_actual, pasoActual, loading, error, setPasoActual } = useData();
 
-    useEffect(() => async () => {
-    // Si no estamos cargando y el array de contenidos está vacio
-    //significa que acabamos de recargar la página!
-    if (!loading && contenidos.length === 0) {
-      //entonces se cargan los datos de este módulo
-        cargarModulo(idModulo);
+    useEffect(() => {
+        const pasoUrl = parseInt(idContenido, 10);
 
-    }
-  }, [idModulo, contenidos, cargarModulo, loading]); // Dependencias
+        const inicializar = async () => {
+            //Cargar datos del módulo si no están
+            if (!loading && contenidos.length === 0) {
+                await cargarModulo(idModulo);
+            }
+            
+            // Sincronizar el paso con la URL
+            // Hacemos esto despues de cargar, o si los datos ya están.
+            if (!isNaN(pasoUrl) && pasoUrl !== pasoActual) {
+                setPasoActual(pasoUrl);
+            }
+        };
+        
+        inicializar();
+        
+    }, [idModulo, idContenido, contenidos, cargarModulo, loading, setPasoActual, pasoActual]); // Dependencias
 
     const handlePracticarClick = () => {
-        // Navegar a la página de práctica del módulo actual
+        // 'pasoActual' ya está sincronizado por el useEffect
         navigate(`/practica/modulo/${idModulo}/contenido/${pasoActual}`)
     }
 
@@ -39,8 +51,9 @@ export default function ContenidoModulo(){
         return <p>Error: {error}</p>;
     }
     
-    if (contenidos.length === 0) {
-        return <p>No se encontró contenido.</p>;
+    // Comprobamos que el contenido_actual exista antes de intentar renderizar
+    if (!contenido_actual) {
+        return <p>Cargando contenido...</p>;
     }
 
     return(
@@ -56,7 +69,7 @@ export default function ContenidoModulo(){
                     <p>{contenido_actual.descripcion}</p>
                 </div>
                 <div className={classes.container_buttom}>
-                    <button className={classes.buttom_practicar} onClick={ ()=> handlePracticarClick()}>Practicar</button>
+                    <button className={classes.buttom_practicar} onClick={handlePracticarClick}>Practicar</button>
                 </div>
             </section>
         </>

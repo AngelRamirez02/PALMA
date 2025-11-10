@@ -44,7 +44,7 @@ const router = createBrowserRouter([
           element: <Modulos />,
         },
         {
-          path: "modulo/contenido/:idModulo", 
+          path: "modulo/contenido/:idModulo/contenido/:idContenido", 
           element: <ContenidoModulo />
         },
         {

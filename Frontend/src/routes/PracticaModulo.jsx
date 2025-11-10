@@ -1,4 +1,4 @@
-import React, { use, useEffect, useRef, useState } from "react";
+import React, { useEffect, useRef, useState } from "react";
 import { useParams, useNavigate } from "react-router-dom";
 
 import {
@@ -29,58 +29,55 @@ export default function HandGestureDetector() {
     const [prediccion, setPrediccion] = useState("Esperando...");
     const [isResultCorrect, setIsCorrectResult] = useState(false);
     
-    const { cargarModulo, contenidos, contenido_actual,pasoActual,loading, error, setPasoActual, total_contenido, irSiguiente } = useData();
+    // Obtenemos las funciones y valores necesarios del contexto
+    const { cargarModulo, contenidos, contenido_actual, pasoActual, loading, setPasoActual, total_contenido, irSiguiente } = useData();
 
+    // Sincroniza el estado del contexto con la URL al cargar
     useEffect(() => {
         const cargarDatos = async () => {
-            // Si no estamos cargando, Y los contenidos están vacíos,
-            // Y SÍ tenemos un idModulo...
-            if (!loading && contenidos.length === 0 && idModulo) {
-                console.log("Datos perdidos por recarga. Volviendo a cargar...");
-                // ¡Llamamos al nuevo cargarModulo con AMBOS IDs!
-                cargarModulo(idModulo);
+            const pasoUrl = parseInt(pasoActualModulo, 10);
+
+            if (!loading) {
+                // Si no hay contenidos, cargarlos
+                if (contenidos.length === 0 && idModulo) {
+                    await cargarModulo(idModulo);
+                }
+                
+                // Sincronizar el paso del contexto con el de la URL
+                if (!isNaN(pasoUrl) && pasoUrl !== pasoActual) {
+                    setPasoActual(pasoUrl);
+                }
             }
         };
         cargarDatos();
-    }, [idModulo, pasoActualModulo, contenidos, cargarModulo, loading]);
+    }, [idModulo, pasoActualModulo, contenidos, cargarModulo, loading, setPasoActual, pasoActual]);
 
 
     useEffect(() =>{
-        if (loading || contenidos.length === 0) {
+        // Espera a que los datos estén cargados y el contenido_actual exista
+        if (loading || contenidos.length === 0 || !contenido_actual) {
             console.log("Esperando datos del módulo...");
             return; // Salir y esperar al siguiente render
         }
-        //Obtener el resultado esperado del contenido actual
+
         const init = async () => {
             const videoElement = videoRef.current;
             const canvasElement = canvasRef.current;
             const canvasCtx = canvasElement.getContext("2d");
             ctxRef.current = canvasCtx;
 
-            // WebSocket al backend
             wsRef.current = new WebSocket(
             "ws://127.0.0.1:8000/api/prediccion/vocales/ws"
             );
 
-            wsRef.current.onopen = () => {
-                console.log("✅ Conectado al servidor WebSocket");
-            };
+            wsRef.current.onopen = () => console.log("✅ Conectado al servidor WebSocket");
+            wsRef.current.onmessage = (event) => setPrediccion(event.data);
+            wsRef.current.onclose = () => console.log("❌ WebSocket cerrado");
 
-            wsRef.current.onmessage = (event) => {
-                console.log("🔮 Seña detectada:", event.data);
-                setPrediccion(event.data);
-            };
-
-            wsRef.current.onclose = () => {
-                console.log("❌ WebSocket cerrado");
-            };
-
-            // Resolver de assets de MediaPipe
             const vision = await FilesetResolver.forVisionTasks(
                 "https://cdn.jsdelivr.net/npm/@mediapipe/tasks-vision/wasm"
             );
 
-        // Crear GestureRecognizer
             gestureRecognizerRef.current = await GestureRecognizer.createFromOptions(
             vision,
             {
@@ -92,24 +89,19 @@ export default function HandGestureDetector() {
             }
             );
 
-        // Iniciar cámara
             if (navigator.mediaDevices.getUserMedia) {
                 const stream = await navigator.mediaDevices.getUserMedia({
                     video: { width: 640, height: 480 },
                 });
-                // Guarda el stream en el ref
                 streamRef.current = stream;
-
                 videoElement.srcObject = stream;
                 videoElement.play();
-
-                videoElement.onloadeddata = () => {
-                predictLoop();
-                };
+                videoElement.onloadeddata = () => predictLoop();
             }
-        // Loop de predicción
+
             const predictLoop = async () => {
-            if (!gestureRecognizerRef.current) return;
+                if (!gestureRecognizerRef.current || !videoElement.readyState) return;
+
                 const nowInMs = Date.now();
                 const result = gestureRecognizerRef.current.recognizeForVideo(
                 videoElement,
@@ -120,35 +112,23 @@ export default function HandGestureDetector() {
                 canvasCtx.clearRect(0, 0, canvasElement.width, canvasElement.height);
                 canvasCtx.drawImage(videoElement, 0, 0, 640, 480);
 
-            if (result.landmarks && result.landmarks.length === 1) {
-                // Dibujar landmarks
-                const drawingUtils = new DrawingUtils(canvasCtx);
-                drawingUtils.drawLandmarks(result.landmarks[0], {
-                    color: "#FF0000",
-                    lineWidth: 1,
-                });
-                drawingUtils.drawConnectors(
-                    result.landmarks[0],
-                    GestureRecognizer.HAND_CONNECTIONS,
-                    { color: "#00FF00", lineWidth: 1 }
-                );
+                if (result.landmarks && result.landmarks.length === 1) {
+                    const drawingUtils = new DrawingUtils(canvasCtx);
+                    drawingUtils.drawLandmarks(result.landmarks[0], { color: "#FF0000", lineWidth: 1 });
+                    drawingUtils.drawConnectors(
+                        result.landmarks[0],
+                        GestureRecognizer.HAND_CONNECTIONS,
+                        { color: "#00FF00", lineWidth: 1 }
+                    );
 
-            // 👉 Enviar landmarks al backend vía WebSocket
-                if (wsRef.current && wsRef.current.readyState === WebSocket.OPEN) {
-                    const payload = {
-                    Handedness: result.handedness[0], // info de izquierda/derecha
-                    Landmarks: result.landmarks[0], // puntos de la mano
-                    };
-                // --- LÍNEA DE DIAGNÓSTICO ---
-                // Imprime en la consola del navegador el objeto que estás a punto de enviar
-                    /*console.log(
-                    "==> ENVIANDO PAYLOAD:",
-                    JSON.stringify(payload, null, 2)
-                    );*/
-                // --- FIN DE LA LÍNEA ---
-                wsRef.current.send(JSON.stringify(payload));
+                    if (wsRef.current && wsRef.current.readyState === WebSocket.OPEN) {
+                        const payload = {
+                            Handedness: result.handedness[0],
+                            Landmarks: result.landmarks[0],
+                        };
+                        wsRef.current.send(JSON.stringify(payload));
+                    }
                 }
-            }
                 canvasCtx.restore();
                 requestAnimationFrame(predictLoop);
             };
@@ -156,36 +136,41 @@ export default function HandGestureDetector() {
         init();
 
         return () => {
-            if (wsRef.current) {
-                wsRef.current.close();
-            }
-            //Cerrar camara al desmontar componente
+            if (wsRef.current) wsRef.current.close();
             if (streamRef.current) {
-                const tracks = streamRef.current.getTracks();
-                tracks.forEach(track => track.stop());
+                streamRef.current.getTracks().forEach(track => track.stop());
                 console.log("Cámara detenida.");
             }
         };
-    },[loading, contenidos, contenido_actual]);
+    }, [loading, contenidos, contenido_actual]); // Depende de contenido_actual
 
     useEffect (()=>{
-        //si hay contenido actual y una prediccion
-        if (contenido_actual && prediccion && prediccion != "Esperando..."){
-            //Comparar los valores del resultado esperado y la prediccion
-            if (prediccion.toLowerCase() === contenido_actual["resultado_esperado"].toLowerCase()){
+        if (contenido_actual && prediccion && prediccion !== "Esperando..."){
+            const respuesta = contenido_actual["resultado_esperado"];
+            
+            if (typeof respuesta === 'string' && prediccion.toLowerCase() === respuesta.toLowerCase()){
                 setIsCorrectResult(true);
-                wsRef.current.close();
+                if(wsRef.current) wsRef.current.close(); // Cierra el WS al acertar
             }
         }
-    },[prediccion,contenido_actual]);
+    },[prediccion, contenido_actual]);
 
-    const handleContinuarClick = () =>{
-        if(pasoActual + 1 > total_contenido.length){
+    // --- LÓGICA DE NAVEGACIÓN ACTUALIZADA ---
+    const handleContinuarClick = () => {
+        // Comprueba si el paso actual + 1 (el siguiente) es >= que el total
+        if (pasoActual + 1 >= total_contenido) {
+            // Si es el último, felicita y redirige a módulos
+            console.log("Módulo completado");
+            navigate('/modulos');
+        } else {
+            // Si no, avanza al siguiente contenido
+            const siguientePaso = pasoActual + 1;
             
-        }
-        else{
-            irSiguiente();
-            navigate(`/practica/modulo/${idModulo}/contenido/${pasoActual}`)
+            // 1. Actualiza el estado en el contexto
+            irSiguiente(); 
+            
+            // 2. Redirige a la página de ContenidoModulo con el *nuevo* paso
+            navigate(`/modulo/contenido/${idModulo}/contenido/${siguientePaso}`);
         }
     }
 
@@ -221,7 +206,7 @@ export default function HandGestureDetector() {
                             </p>
                             <button
                                 className={classes.btn_modal_ok}
-                                onClick={handleContinuarClick}
+                                onClick={handleContinuarClick} // Llama a la nueva función
                             >
                             OK
                             </button>
