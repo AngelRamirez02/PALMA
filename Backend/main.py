@@ -6,8 +6,7 @@ from db.database import engine, Base
 
 import models
 
-from endpoints import usuario_router
-from endpoints import modulo_router
+from endpoints import usuario_router, modulo_router, web_socket_router
 
 
 print("Creando tablas en la base de datos...")
@@ -42,3 +41,5 @@ def read_root():
 app.include_router(usuario_router.router, prefix="/api", tags=["Usuarios"])
 
 app.include_router(modulo_router.router, prefix="/api", tags=["Modulos"])
+
+app.include_router(web_socket_router.router, prefix="/api", tags=["Prediccion"])
