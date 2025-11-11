@@ -4,8 +4,10 @@ from db.database import SessionLocal
 from core.security import verificar_token
 
 from models import ContenidoModulo
+from models import modulo_completado
 
 from services.modulos import get_modulos, get_contenidoModulo
+from services.modulo_completado import get_modulosCompletados_User
 from schemas import usuario
 
 from typing import Annotated
@@ -42,3 +44,7 @@ def read_modulos(db:Session = Depends(get_db), access_token: Annotated[str | Non
 def contenido_modulo(id_modulo: int, db: Session = Depends(get_db),access_token: Annotated[str | None, Header()] = None):
     usuario = verificar_token(access_token, db)
     return get_contenidoModulo(db,id_modulo)
+
+@router.get("/moduloscompletados/{id_user}")
+def get_modulos_completados(id_user:int, db: Session = Depends(get_db)):
+    return get_modulosCompletados_User(id_user, db);

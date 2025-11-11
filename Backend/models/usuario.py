@@ -1,4 +1,5 @@
 from sqlalchemy import Column, Integer, String, Date
+from sqlalchemy.orm import relationship
 from db.database import Base
 
 class Usuario(Base):
@@ -11,5 +12,11 @@ class Usuario(Base):
     fecha_nacimiento = Column(Date)
     sexo = Column(String(25))
     email = Column(String(80), unique=True, index=True)
-    experincia = Column(Integer, default=0)
+    experiencia = Column(Integer, default=0)
     hashed_password = Column(String(255))
+
+    modulos_completados = relationship(
+    "ModuloCompletado",
+    back_populates="usuario",
+    cascade="all, delete-orphan"
+)
