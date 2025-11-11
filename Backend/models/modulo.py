@@ -8,6 +8,7 @@ class Modulo(Base):
     nombre = Column(String(100), unique=True)
     descripcion = Column(Text)
     link_imagen = Column(String(500))
+    experiencia = Column(Integer)
 
     contenidos = relationship(
         "ContenidoModulo", 

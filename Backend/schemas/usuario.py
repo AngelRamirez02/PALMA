@@ -34,3 +34,7 @@ class User(UserBase):
 class UserLogin(BaseModel):
     email: EmailStr
     password: str
+
+class UserExperiencia(BaseModel):
+    id_user:int
+    id_modulo:int
