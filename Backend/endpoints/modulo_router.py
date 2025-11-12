@@ -10,8 +10,8 @@ from services.modulos import get_modulos, get_contenidoModulo, get_experiencia_m
 from services.modulo_completado import get_modulosCompletados_User,set_modulo_completado
 from services.user import set_experiencia_user
 
-from schemas import usuario
 from schemas.modulo_completado import ModuloCompletadoBase
+from schemas.usuario import RespuestaModuloCompletado
 
 from typing import Annotated
 from jose import jwt, JWTError
@@ -53,12 +53,25 @@ def get_modulos_completados(id_user:int, db: Session = Depends(get_db), access_t
     usuario = verificar_token(access_token, db)
     return get_modulosCompletados_User(id_user, db)
 
-@router.post("/registrar/modulocompletado")
-def registrar_modulo_completado_endpoint(data:ModuloCompletadoBase,  db: Session = Depends(get_db)):
+@router.post("/registrar/modulocompletado",  response_model=RespuestaModuloCompletado)
+def registrar_modulo_completado_endpoint(data:ModuloCompletadoBase,  
+                                        db: Session = Depends(get_db), 
+                                        access_token: Annotated[str | None, Header()] = None):
+    usuario = verificar_token(access_token, db)
+
+    db_registro = set_modulo_completado(data.id_modulo, usuario.id, db)
+    if isinstance(db_registro, dict):
+        raise HTTPException(
+            status_code=200, # 200 OK, pero con un mensaje diferente
+            detail="Repaso del modulo. No se ganó experiencia."
+        )
+
     #Obtener la experiencia ganada
     experiencia_ganada = get_experiencia_modulo(data.id_modulo, db)
+
     #Actualizar la experiencia del usuario con
-    db_user = set_experiencia_user(data.id_usuario, experiencia_ganada, db)
+    db_user = set_experiencia_user(usuario.id, experiencia_ganada, db)
+
     #Si no se actualiza la experiencia del usuario
     print(db_user)
     if not db_user:
@@ -66,5 +79,11 @@ def registrar_modulo_completado_endpoint(data:ModuloCompletadoBase,  db: Session
             status_code=404, # 404 Not Found
             detail=f"No se pudo actualizar. Usuario con id {data.id_usuario} no encontrado."
         )
-    return set_modulo_completado(data, db)
+    
+    return {
+        "mensaje": "¡Módulo completado y experiencia actualizada!",
+        "experiencia_ganada": experiencia_ganada,
+        "usuario_actualizado": db_user,
+        "registro_modulo": db_registro
+    }
 

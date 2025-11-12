@@ -1,5 +1,6 @@
 from pydantic import BaseModel, Field, EmailStr
 from datetime import date
+from schemas.modulo_completado import ModuloCompletado
 
 # --- 1. Esquema Base para no repetir código ---
 class UserBase(BaseModel):
@@ -22,8 +23,7 @@ class UserCreate(UserBase):
         description="La contraseña debe tener entre 8 y 72 caracteres."
     )
 
-# --- 3. Esquema para la Lectura de Usuario (Lo que devuelves desde la API) ---
-# NUNCA se debe devolver la contraseña.
+# Esquema para la Lectura de Usuario (Lo que devuelves desde la API) ---
 class User(UserBase):
     id: int
 
@@ -36,5 +36,16 @@ class UserLogin(BaseModel):
     password: str
 
 class UserExperiencia(BaseModel):
-    id_user:int
-    id_modulo:int
+    id: int
+    email: str
+    experiencia: int # O 'experincia' si aún tienes el typo en el modelo
+
+    class Config:
+        from_attributes = True # (o orm_mode = True)
+
+# Esquema para la respuesta completa del endpoint
+class RespuestaModuloCompletado(BaseModel):
+    mensaje: str
+    experiencia_ganada: int
+    usuario_actualizado: UserExperiencia # Usa tu schema de Usuario
+    registro_modulo: ModuloCompletado # Usa tu nuevo schema
