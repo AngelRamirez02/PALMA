@@ -1,5 +1,6 @@
 import React, { useEffect, useRef, useState } from "react";
 import { useParams, useNavigate } from "react-router-dom";
+import { completarModulo } from "../api/CompletarModulo";
 
 import {
     GestureRecognizer,
@@ -28,6 +29,8 @@ export default function HandGestureDetector() {
 
     const [prediccion, setPrediccion] = useState("Esperando...");
     const [isResultCorrect, setIsCorrectResult] = useState(false);
+    const [isModuloCompletado, setIsModuloCompletado] = useState(false);
+    const [experienciaGanada, setExperienciaGanada] = useState(0);
     
     // Obtenemos las funciones y valores necesarios del contexto
     const { cargarModulo, contenidos, contenido_actual, pasoActual, loading, setPasoActual, total_contenido, irSiguiente } = useData();
@@ -155,22 +158,37 @@ export default function HandGestureDetector() {
         }
     },[prediccion, contenido_actual]);
 
-    // --- LÓGICA DE NAVEGACIÓN ACTUALIZADA ---
+    // --- LOGICA DE NAVEGACIÓN ACTUALIZADA ---
     const handleContinuarClick = () => {
         // Comprueba si el paso actual + 1 (el siguiente) es >= que el total
         if (pasoActual + 1 >= total_contenido) {
             // Si es el último, felicita y redirige a módulos
+            registrarModuloCompletado();
             console.log("Módulo completado");
             navigate('/modulos');
         } else {
             // Si no, avanza al siguiente contenido
             const siguientePaso = pasoActual + 1;
             
-            // 1. Actualiza el estado en el contexto
+            // Actualiza el estado en el contexto
             irSiguiente(); 
             
-            // 2. Redirige a la página de ContenidoModulo con el *nuevo* paso
+            //Redirige a la página de ContenidoModulo con el nuevo paso
             navigate(`/modulo/contenido/${idModulo}/contenido/${siguientePaso}`);
+        }
+    }
+
+    const registrarModuloCompletado = async () =>{
+        try {
+            const data = await completarModulo(contenido_actual["id_modulo"]);
+            setIsModuloCompletado(true);
+            console.log("Modulo registrado: ", data)
+
+            if(!data.detail){
+                setExperienciaGanada(data.experienciaGanada);
+            }
+        } catch (error) {
+            console.error("Error al registrar el modulo completado: ", error)
         }
     }
 
@@ -207,6 +225,24 @@ export default function HandGestureDetector() {
                             <button
                                 className={classes.btn_modal_ok}
                                 onClick={handleContinuarClick} // Llama a la nueva función
+                            >
+                            OK
+                            </button>
+                    </div>
+                </div>
+            )
+        }
+        {
+            isModuloCompletado &&(
+                <div className={classes.modal_overlay}>
+                    <div className={classes.modal_card}>
+                        <h2>!Modulo completado!</h2>
+                            <p>
+                            Felicidades has completado el modulo No: {contenido_actual["id_modulo"]}, avanzas al siguiente paso. Continua asi.
+                            </p>
+                            <button
+                                className={classes.btn_modal_ok}
+                                //onClick={handleContinuarClick} // Llama a la nueva función
                             >
                             OK
                             </button>
