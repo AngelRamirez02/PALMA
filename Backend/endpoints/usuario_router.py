@@ -6,7 +6,7 @@ from jose import JWTError, jwt
 from typing import Annotated
 
 from db.database import SessionLocal
-from services.auth import get_users, get_user_by_email, create_user
+from services.auth import get_user, get_user_by_email, create_user
 from services.user import set_experiencia_user
 from schemas.usuario import User, UserCreate, UserLogin, UserExperiencia
 from services.modulos import get_experiencia_modulo
@@ -45,13 +45,10 @@ def create_access_token(data: dict) -> str:
     
     return encoded_jwt
 
-@router.get("/", response_model=list[User])
-def read_users(db: Session = Depends(get_db)):
-    return get_users(db)
-
-@router.get("/hola")
-def hola():
-    return {"message": "Hola, esta es una ruta de prueba."}
+@router.get("/read", response_model=User)
+def read_users(db: Session = Depends(get_db),  access_token: Annotated[str | None, Header()] = None):
+    db_user = verificar_token(access_token,db)
+    return get_user(db_user.id, db)
 
 #Crear un nuevo usuario
 @router.post("/registrar", response_model=User)

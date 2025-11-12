@@ -26,6 +26,7 @@ class UserCreate(UserBase):
 # Esquema para la Lectura de Usuario (Lo que devuelves desde la API) ---
 class User(UserBase):
     id: int
+    experiencia:int
 
     class Config:
         # Permite que Pydantic funcione con los modelos de SQLAlchemy

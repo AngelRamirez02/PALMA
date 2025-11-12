@@ -1,12 +1,12 @@
 from sqlalchemy.orm import Session
 
-from schemas.usuario import UserCreate
+from schemas.usuario import UserCreate, User
 from models.usuario import Usuario
 from core.security import get_password_hash
 
-def get_users(db: Session):
-    """Obtiene todos los usuarios de la base de datos."""
-    return db.query(Usuario).all()
+def get_user(id_user:int,db: Session):
+    """Obtiene la informacion de un usuario en especifico de la bd"""
+    return db.query(Usuario).filter(Usuario.id == id_user).first()
 
 def get_user_by_id(db: Session, id: int):
     """Obtiene un usuario por su ID."""
