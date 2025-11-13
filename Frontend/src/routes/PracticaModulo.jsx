@@ -31,6 +31,7 @@ export default function HandGestureDetector() {
     const [isResultCorrect, setIsCorrectResult] = useState(false);
     const [isModuloCompletado, setIsModuloCompletado] = useState(false);
     const [experienciaGanada, setExperienciaGanada] = useState(0);
+    const [mensajeFinalModulo, setMensajeFinalModulo] = useState("");
     
     // Obtenemos las funciones y valores necesarios del contexto
     const { cargarModulo, contenidos, contenido_actual, pasoActual, loading, setPasoActual, total_contenido, irSiguiente } = useData();
@@ -158,14 +159,14 @@ export default function HandGestureDetector() {
         }
     },[prediccion, contenido_actual]);
 
-    // --- LOGICA DE NAVEGACIÓN ACTUALIZADA ---
+    // --- LOGICA DE NAVEGACIÓN---
     const handleContinuarClick = () => {
         // Comprueba si el paso actual + 1 (el siguiente) es >= que el total
         if (pasoActual + 1 >= total_contenido) {
             // Si es el último, felicita y redirige a módulos
             registrarModuloCompletado();
             console.log("Módulo completado");
-            navigate('/modulos');
+            //navigate('/modulos');
         } else {
             // Si no, avanza al siguiente contenido
             const siguientePaso = pasoActual + 1;
@@ -182,10 +183,14 @@ export default function HandGestureDetector() {
         try {
             const data = await completarModulo(contenido_actual["id_modulo"]);
             setIsModuloCompletado(true);
+            setIsCorrectResult(false);
             console.log("Modulo registrado: ", data)
 
             if(!data.detail){
-                setExperienciaGanada(data.experienciaGanada);
+                //setExperienciaGanada(data.experiencia_ganada);
+                setMensajeFinalModulo("Felicidades has completado el modulo No:" + contenido_actual["id_modulo"] + ". Has ganado " + data.experiencia_ganada + " puntos de experiencia. Sigue asi!");
+            }else{
+                setMensajeFinalModulo("Felicidades has completado el modulo No:" + contenido_actual["id_modulo"]+". "+data.detail);
             }
         } catch (error) {
             console.error("Error al registrar el modulo completado: ", error)
@@ -238,11 +243,13 @@ export default function HandGestureDetector() {
                     <div className={classes.modal_card}>
                         <h2>!Modulo completado!</h2>
                             <p>
-                            Felicidades has completado el modulo No: {contenido_actual["id_modulo"]}, avanzas al siguiente paso. Continua asi.
+                                {mensajeFinalModulo}
                             </p>
                             <button
                                 className={classes.btn_modal_ok}
-                                //onClick={handleContinuarClick} // Llama a la nueva función
+                                onClick={()=>{
+                                    navigate('/modulos')
+                                }}
                             >
                             OK
                             </button>
