@@ -62,11 +62,11 @@ export default function ContenidoModulo(){
             <NavUser/>
             <section>
                 <div className={classes.contenido_modulo}>
-                    <h2>{contenido_actual.nombre}</h2>
+                    <h2 className={classes.nombre_modulo}>{contenido_actual.nombre}</h2>
                     <div className="container-img">
                         <img src={contenido_actual.url_img_letra} alt="img-letra"></img>
                     </div>
-                    <p>{contenido_actual.descripcion}</p>
+                    <p className={classes.descripcion}>{contenido_actual.descripcion}</p>
                 </div>
                 <div className={classes.container_buttom}>
                     <button className={classes.buttom_practicar} onClick={handlePracticarClick}>Practicar</button>

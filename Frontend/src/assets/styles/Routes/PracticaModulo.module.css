@@ -1,3 +1,30 @@
+.practica_modulo{
+    display: flex;
+    align-items: center;
+    justify-content: space-around;
+}
+
+.container_video{
+    margin-top: 30px;
+}
+.instrucciones{
+    margin: 20px 0;
+    text-align: center;
+}
+.resultado_esperado{
+    font-family: Arial, Helvetica, sans-serif;
+    font-weight: bold;
+    margin-bottom: 18px;
+    font-size: 20px;
+}
+
+.deteccion_txt{
+    font-family: Arial, Helvetica, sans-serif;
+    font-weight: bold;
+    margin-top: 18px;
+    font-size: 18px;
+}
+
 /* Estilos para el Modal de Éxito */
 .modal_overlay {
     position: fixed; /* Se posiciona sobre toda la pantalla */

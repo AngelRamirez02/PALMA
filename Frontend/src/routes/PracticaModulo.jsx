@@ -63,6 +63,7 @@ export default function HandGestureDetector() {
             console.log("Esperando datos del módulo...");
             return; // Salir y esperar al siguiente render
         }
+        console.log(contenido_actual)
 
         const init = async () => {
             const videoElement = videoRef.current;
@@ -201,8 +202,8 @@ export default function HandGestureDetector() {
         <>
         <Logos />
         <NavUser />
-        <section>
-            <div className="container_video">
+        <section className={classes.practica_modulo}>
+            <div className={classes.container_video}>
                 <video
                 ref={videoRef}
                 style={{ display: "none" }}
@@ -217,7 +218,16 @@ export default function HandGestureDetector() {
                 style={{ border: "2px solid #333", borderRadius: "8px" }}
                 />
             </div>
-            <p>Seña detectada: {prediccion}</p>
+            <div className={classes.instrucciones}>
+                <p className={classes.resultado_esperado}>Resultado esperado:</p>
+                    {
+                        !loading && contenido_actual?.url_img_letra && (
+                            <img src={contenido_actual.url_img_letra} alt="resultado esperado" />
+                        )
+                    }
+                <p className={classes.deteccion_txt}>Seña detectada: {prediccion}</p>
+            
+            </div>
         </section>
         {
             isResultCorrect &&(
