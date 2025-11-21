@@ -76,6 +76,7 @@ def login_user(user: UserLogin,db: Session = Depends(get_db)):
         "token_type": "bearer",
         "expires_in": settings.ACCESS_TOKEN_EXPIRE_SECONDS # Envía la duración
     }
+    
 
 @router.post("/update/experiencia")
 def actualizar_experiencia(user_data:UserExperiencia, db:Session =Depends(get_db), access_token: Annotated[str | None, Header()] = None):

@@ -63,7 +63,7 @@ def registrar_modulo_completado_endpoint(data:ModuloCompletadoBase,
     if isinstance(db_registro, dict):
         raise HTTPException(
             status_code=200, # 200 OK, pero con un mensaje diferente
-            detail="Repaso del modulo. No se ganó experiencia."
+            detail="Repaso exitoso del modulo. No se ganó experiencia."
         )
 
     #Obtener la experiencia ganada
