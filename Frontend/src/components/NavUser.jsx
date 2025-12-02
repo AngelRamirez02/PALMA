@@ -87,9 +87,6 @@ export default function NavUser(){
 
             {/* 2. Dropdown.Menu: Contiene los items */}
             <Dropdown.Menu>
-                <Dropdown.Item href="#/action-1">Action</Dropdown.Item>
-                <Dropdown.Item href="#/action-2">Another action</Dropdown.Item>
-                <Dropdown.Divider /> {/* Línea divisoria opcional */}
                 <Dropdown.Item href="#/action-3">Cerrar Sesión</Dropdown.Item>
             </Dropdown.Menu>
         </Dropdown>
