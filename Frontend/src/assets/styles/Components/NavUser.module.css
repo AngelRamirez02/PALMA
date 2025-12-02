@@ -5,6 +5,7 @@
     background-color: #FFFF;
     border-bottom: 1px solid #DADADA;
     padding: 10px 0px;
+    width: 100%;
 }
 
 .logo_palma{
@@ -20,22 +21,20 @@
 }
 
 .container_bar_user{
-    max-width: 450px;
+    max-width: 300px;
     width: 50%;
-    margin-right: 20px;
+    margin-right: 30px;
     display: flex;
     justify-content: space-between;
     align-items: center;
-    
 }
 
 .container_progress_bar{
     width: 70%;
 }
-.container_icon_user{
-    width: 20%;
-}
+
 
 .text_exp{
     margin: 0;
+    font-size: 1rem;
 }
